@@ -3,6 +3,7 @@ var myWheel = new Winwheel({
 	'canvasId'    : 'canvas',
     'numSegments' : 37,
     'lineWidth'   : 2,
+    'innerRadius' : 300,
     'segments'    :
         [
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'green', 'text' : '0'},
@@ -28,10 +29,10 @@ var myWheel = new Winwheel({
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '27'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '10'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '25'},
-            {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '29'},
+            {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '29'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '12'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '8'},
-            {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '19'},
+            {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '19'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '31'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '18'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '6'},
@@ -44,12 +45,47 @@ var myWheel = new Winwheel({
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'red', 'text' : '14'},
             {'strokeStyle' : 'white','textStrokeStyle' : 'white','fillStyle' : 'black', 'text' : '2'}
 
-        ]
+        ],
 
+        'animation' :
+        {
+        'type'     : 'spinToStop',
+        'duration' : 5,
+        'spins'    : 8,
+ 
+            // Remember to do something after the animation has finished specify callback function.
+        'callbackFinished' : 'alertPrize()',
+ 
+            // During the animation need to call the drawTriangle() to re-draw the pointer each frame.
+         'callbackAfter' : 'drawTriangle()'
+        }
 
 
 
 })
+
+function alertPrize(){
+    var winningSegment = myWheel.getIndicatedSegment();
+    alert("You have won " + winningSegment.text + "!");
+    drawTriangle()
+}
+
+function drawTriangle()
+    {
+        // Get the canvas context the wheel uses.
+        var ctx = myWheel.ctx;
+ 
+        ctx.strokeStyle = 'navy';     // Set line colour.
+        ctx.fillStyle   = 'aqua';     // Set fill colour.
+        ctx.lineWidth   = 2;
+        ctx.beginPath();              // Begin path.
+        ctx.moveTo(470, 2);           // Move to initial position.
+        ctx.lineTo(530, 2);           // Draw lines to make the shape.
+        ctx.lineTo(500, 37);
+        ctx.lineTo(471, 2);
+        ctx.stroke();                 // Complete the path by stroking (draw lines).
+        ctx.fill();                   // Then fill.
+    }
 
 
 
